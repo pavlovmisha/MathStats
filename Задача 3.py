@@ -14,13 +14,29 @@ sample_sizes = [20, 100]
 repeats_for_outliers = 1000
 
 for n in sample_sizes:
+    data = []
+    labels = []
     for dist_name, dist_info in distributions.items():
-        plt.figure(figsize=(6, 4))
         sample = dist_info['func'](n)
-        plt.boxplot(sample, showfliers=True)
-        plt.title(f'Боксплот Тьюки - {dist_name} (n={n})')
-        plt.ylabel('Значения')
-        plt.show()
+        data.append(sample)
+        labels.append(dist_name)
+    plt.figure(figsize=(12, 6))
+    plt.boxplot(data, labels=labels, showfliers=True)
+    plt.title(f'Боксплоты Тьюки для распределений (n={n})')
+    plt.ylabel('Значения')
+    plt.show()
+
+for dist_name, dist_info in distributions.items():
+    plt.figure(figsize=(8, 5))
+    data = []
+    for n in sample_sizes:
+        sample = dist_info['func'](n)
+        data.append(sample)
+    plt.boxplot(data, labels=[f'n={n}' for n in sample_sizes], showfliers=True)
+    plt.title(f'Боксплоты Тьюки для {dist_name}')
+    plt.ylabel('Значения')
+    plt.legend([f'{dist_name} (n={n})' for n in sample_sizes])
+    plt.show()
 
 
 # 2. Определение доли выбросов по тесту Тьюки
